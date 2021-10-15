@@ -4,13 +4,14 @@ const webpack = require("webpack");
 module.exports = {
   entry: path.resolve(__dirname, "./src/index.jsx"),
   mode: "production",
+  
   module: {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
+        options: { presets: ["@babel/env", "@babel/preset-flow"] }
       },
       {
         test: /\.css$/,
@@ -18,7 +19,12 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: ["*", ".js", ".jsx", ".ts", ".tsx"] },
+  resolve: {
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+    alias: {
+      '@tictactoe/interfaces': path.resolve(__dirname, "../interfaces"),
+    },
+  },
   output: {
     path: path.resolve(__dirname, "../build/"),
     publicPath: "/dist/",

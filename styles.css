@@ -1,7 +1,60 @@
-/* styles.css */
+body {
+  user-select: none;
+}
 
-/* Add styles here to customize the appearance of your app */
+.players-container {
+  display: flex;
+}
 
-.button-row button {
-  margin: 0 5px;
+.players-container .player {
+  width: 40%;
+  float: left;
+  text-align: center;
+  cursor: default;
+}
+
+.players-container .player-buffer {
+  width: 20%;
+  float: left;
+}
+
+.players-container .player.active-player {
+  color: blue;
+}
+
+.game-board-container {
+  margin-top: 30px;
+  display: flex;
+}
+
+.game-board {
+  margin: auto;
+}
+
+.game-board .cells-row {
+  display: flex;
+}
+
+.game-board .game-cell {
+  border-width: 3px 3px 0 0;
+  border-style: solid;
+  border-color: grey;
+
+  float: left;
+  height: 75px;
+  width: 75px;
+  cursor: default;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-family: sans-serif;
+  display: flex;
+}
+
+.game-board .cells-row:last-child .game-cell {
+  border-bottom-width: 3px;
+}
+
+.game-board .game-cell:first-child {
+  border-left-width: 3px;
 }

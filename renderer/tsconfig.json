@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@tictactoe/interfaces": ["../interfaces"]
+    },
     "outDir": "../build/",
     "noImplicitAny": true,
     "module": "es6",
