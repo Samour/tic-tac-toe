@@ -13,6 +13,10 @@ body {
   cursor: default;
 }
 
+.players-container .player .player-symbol {
+  font-family: sans-serif;
+}
+
 .players-container .player-buffer {
   width: 20%;
   float: left;
@@ -57,4 +61,10 @@ body {
 
 .game-board .game-cell:first-child {
   border-left-width: 3px;
+}
+
+.clear-board-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }

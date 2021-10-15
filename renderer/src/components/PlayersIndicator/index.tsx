@@ -3,9 +3,9 @@ import PlayerName from './PlayerName';
 
 const PlayersIndicator = (): React.ReactElement => (
   <div className='players-container'>
-    <PlayerName playerId='player1'/>
+    <PlayerName playerId='player1' leading={true}/>
     <div className='player-buffer'>&nbsp;</div>
-    <PlayerName playerId='player2'/>
+    <PlayerName playerId='player2' leading={false}/>
   </div>
 );
 

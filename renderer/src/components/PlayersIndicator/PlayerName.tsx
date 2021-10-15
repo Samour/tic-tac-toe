@@ -5,11 +5,12 @@ import { playerChangeActiveMutation } from '@tictactoe/interfaces/mutations';
 
 export interface Props {
   playerId: string;
+  leading: boolean;
 }
 
 const selector = (playerId: string) => (state: GameState): Player => state.players.players.get(playerId) as Player;
 
-const PlayerName = ({ playerId }: Props): React.ReactElement => {
+const PlayerName = ({ playerId, leading }: Props): React.ReactElement => {
   const player = useSelector(selector(playerId));
   const dispatch = useDispatch();
 
@@ -20,11 +21,27 @@ const PlayerName = ({ playerId }: Props): React.ReactElement => {
     classes.push('active-player');
   }
 
+  const nameDisplay = (() => {
+    if (leading) {
+      return [
+        player.name,
+        ' | ',
+        <span className="player-symbol">{player.symbol}</span>,
+      ];
+    } else {
+      return [
+        <span className="player-symbol">{player.symbol}</span>,
+        ' | ',
+        player.name,
+      ];
+    };
+  })();
+
   const className = classes.join(' ');
   return (
     <div className={className} onClick={makeActive}>
       <h1>
-        {player.name}
+        {nameDisplay}
       </h1>
     </div>
   );
