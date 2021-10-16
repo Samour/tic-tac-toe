@@ -3,9 +3,7 @@
     "paths": {
       "@tictactoe/interfaces": ["../interfaces"],
       "@tictactoe/interfaces/events": ["../interfaces/events"],
-      "@tictactoe/internal": ["../internal"]
     },
-    "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "target": "ES6",

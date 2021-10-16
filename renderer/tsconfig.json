@@ -2,7 +2,9 @@
   "compilerOptions": {
     "paths": {
       "@tictactoe/interfaces": ["../interfaces"],
-      "@tictactoe/interfaces/mutations": ["../interfaces/mutations"]
+      "@tictactoe/interfaces/mutations": ["../interfaces/mutations"],
+      "@tictactoe/interfaces/events": ["../interfaces/events"],
+      "@tictactoe/internal": ["../internal"]
     },
     "outDir": "../build/",
     "noImplicitAny": true,

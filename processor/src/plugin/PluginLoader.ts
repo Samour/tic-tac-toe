@@ -18,7 +18,7 @@ class PluginLoaderImpl implements PluginLoader {
     let files: string[];
     try {
       files = await fs.readdir(this.pluginsDir);
-    } catch (e) {
+    } catch (e: any) {
       if (e.code === 'ENOENT') {
         return [];
       } else {

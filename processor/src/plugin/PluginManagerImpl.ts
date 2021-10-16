@@ -1,5 +1,5 @@
 import { GameState, UnloadPlugin } from '@tictactoe/interfaces';
-import { IEvent } from '@tictactoe/interfaces/events';
+import { IAttributedEvent, PLUGIN_PUBLISHER } from '@tictactoe/internal';
 import { pluginLoader, PluginLoader } from './PluginLoader';
 import { PluginManager } from './PluginManager';
 import { createPlugin, PluginWrapper } from './PluginWrapper';
@@ -27,18 +27,24 @@ class PluginManagerImpl implements PluginManager {
   }
 
   getState(): GameState {
-    return null;
+    return {} as any;
   }
 
-  publishEvent(event: IEvent): void {
+  publishEvent(event: IAttributedEvent): void {
+  }
 
+  handleEvent(event: IAttributedEvent): void {
+    Array.from(this.plugins.entries())
+      .filter(([name, p]) => PLUGIN_PUBLISHER + name !== event.publishedBy)
+      .map(([name, p]) => p)
+      .forEach((p) => p.handleEvent(event));
   }
 
   unloadPlugin(pluginName: string, unloadPlugin: UnloadPlugin): void {
     if (!this.plugins.has(pluginName)) {
       return;
     }
-    const plugin = this.plugins.get(pluginName);
+    const plugin = this.plugins.get(pluginName) as PluginWrapper;
     this.plugins.delete(pluginName);
     plugin.onUnload(unloadPlugin);
   }

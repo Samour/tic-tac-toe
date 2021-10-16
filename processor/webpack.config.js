@@ -17,6 +17,7 @@ module.exports = {
     extensions: ['.ts', '.js'],
     alias: {
       '@tictactoe/interfaces': path.resolve(__dirname, "../interfaces"),
+      '@tictactoe/internal': path.resolve(__dirname, "../internal"),
     },
   },
   output: {

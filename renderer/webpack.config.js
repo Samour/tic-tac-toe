@@ -23,6 +23,7 @@ module.exports = {
     extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
     alias: {
       '@tictactoe/interfaces': path.resolve(__dirname, "../interfaces"),
+      '@tictactoe/internal': path.resolve(__dirname, "../internal"),
     },
   },
   output: {

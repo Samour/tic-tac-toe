@@ -1,5 +1,5 @@
 import { GameState, UnloadPlugin } from '@tictactoe/interfaces';
-import { IEvent } from '@tictactoe/interfaces/events';
+import { IAttributedEvent } from '@tictactoe/internal';
 
 export interface PluginManager {
   
@@ -7,9 +7,9 @@ export interface PluginManager {
 
   getState(): GameState;
 
-  // TODO this will probably need to be a different inteface to include additional data, eg. plugin that published
-  // event
-  publishEvent(event: IEvent): void;
+  publishEvent(event: IAttributedEvent): void;
+
+  handleEvent(event: IAttributedEvent): void;
 
   unloadPlugin(pluginName: string, unloadPlugin: UnloadPlugin): void;
 
