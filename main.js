@@ -17,14 +17,12 @@ function createWindow() {
     },
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
+  // Initialise main thread reasources/listeners
   const cleanup = registerApp(ipcMain, mainWindow.webContents);
   mainWindow.on('close', () => cleanup());
+
+  // and load the index.html of the app.
+  mainWindow.loadFile('index.html');
 }
 
 // This method will be called when Electron has finished
