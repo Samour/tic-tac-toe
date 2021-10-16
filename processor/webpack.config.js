@@ -15,6 +15,9 @@ module.exports = {
   // Bundle '.ts' files as well as '.js' files.
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      '@tictactoe/interfaces': path.resolve(__dirname, "../interfaces"),
+    },
   },
   output: {
     path: path.resolve(__dirname, "../build/"),
@@ -23,6 +26,7 @@ module.exports = {
     globalObject: 'this',
   },
   externals: {
+    'fs/promises': 'commonjs fs/promises',
     'path': 'commonjs path',
     'electron': 'commonjs electron',
   },

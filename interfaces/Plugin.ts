@@ -27,5 +27,5 @@ export interface PluginFactory {
 
   getPluginName(): string;
 
-  create(pluginAccess: PluginAccess): void;
+  create(pluginAccess: PluginAccess): Plugin;
 }

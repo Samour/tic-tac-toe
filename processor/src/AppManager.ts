@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+import { PluginManager } from './plugin/PluginManager';
+import { pluginManager } from './plugin/PluginManagerImpl';
 
 interface AppManager {
   onAppReady(): void;
@@ -8,20 +9,21 @@ interface AppManager {
 
 class AppManagerImpl implements AppManager {
 
+  constructor(private readonly pluginManager: PluginManager) { }
+
   onAppReady(): void {
-    console.log('Hello Manager!');
-    ipcRenderer.send('debugMessage', 'Hello Manager!');
+    this.pluginManager.loadPlugins();
   }
 
   onAppClose(): void {
-    ipcRenderer.send('debugMessage', 'Goodbye Manager!');
+    this.pluginManager.unloadAllPlugins({ appShutDown: true });
   }
 }
 
+const createAppManager = (): AppManager => new AppManagerImpl(pluginManager());
+
 export const registerApp = () => {
-  console.log('registerApp');
-  console.log(window);
-  const appManager: AppManager = new AppManagerImpl();
+  const appManager = createAppManager();
 
   window.addEventListener('DOMContentLoaded', () => {
     appManager.onAppReady();
