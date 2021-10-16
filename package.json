@@ -8,7 +8,10 @@
     "build:renderer": "webpack -c renderer/webpack.config.js --mode production",
     "build:processor": "webpack -c processor/webpack.config.js --mode production",
     "build": "npm run build:renderer && npm run build:processor",
-    "clean": "rm -rf ./build"
+    "clean": "rm -rf ./build",
+
+    "build:plugin:simple": "webpack -c plugins/simple/webpack.config.js --mode production",
+    "clean:plugins": "rm -rf ./build/plugins"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [

@@ -35,7 +35,7 @@ class PluginLoaderImpl implements PluginLoader {
 
     const pluginFactories = [];
     for (let pluginFile of files) {
-      const factory = remote.require(pluginFile);
+      const factory = remote.require(pluginFile)?.factory;
       pluginFactories.push(factory);
     }
 

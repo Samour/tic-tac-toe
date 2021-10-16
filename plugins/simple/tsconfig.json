@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@tictactoe/interfaces": ["../../interfaces"],
+      "@tictactoe/interfaces/events": ["../../interfaces/events"]
+    },
+    "strict": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "target": "ES6",
+    "module": "ES2015",
+    "moduleResolution": "node"
+  }
+}
