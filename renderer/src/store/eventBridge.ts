@@ -5,8 +5,10 @@ import { CORE_RENDERER_PUBLISHER, EventBus, EventSubscriber, IAttributedEvent } 
 
 class StoreEventBridge implements EventSubscriber {
 
-  constructor(private readonly store: Store<GameState>, private readonly eventBus: EventBus) {
-    store.subscribe(() => this.receiveDispatch());
+  constructor(private readonly store: Store<GameState>, private readonly eventBus: EventBus) { }
+
+  initialise(): void {
+    this.store.subscribe(() => this.receiveDispatch());
   }
 
   private receiveDispatch(): void {
@@ -23,5 +25,6 @@ class StoreEventBridge implements EventSubscriber {
 
 export const registerStoreEventBridge = (store: Store<GameState>, eventBus: EventBus) => {
   const eventBridge = new StoreEventBridge(store, eventBus);
+  eventBridge.initialise();
   eventBus.registerSubscriber(eventBridge);
 };

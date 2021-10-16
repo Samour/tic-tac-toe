@@ -6,3 +6,4 @@ export {
 } from './events/IAttributedEvent';
 export { EventBus, EventSubscriber } from './events/EventBus';
 export { EventBusImpl } from './events/EventBusImpl';
+export { RendererEventContextBridge, ProcessorEventContextBridge } from './events/EventContextBridge';

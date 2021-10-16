@@ -4,6 +4,7 @@
       "@tictactoe/interfaces": ["../interfaces"],
       "@tictactoe/interfaces/events": ["../interfaces/events"],
     },
+    "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "target": "ES6",

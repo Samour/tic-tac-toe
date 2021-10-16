@@ -11,7 +11,7 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/preset-typescript", "@babel/env", "@babel/preset-flow"] }
+        options: { presets: ["@babel/env", "@babel/preset-typescript", "@babel/preset-flow"] }
       },
       {
         test: /\.css$/,
