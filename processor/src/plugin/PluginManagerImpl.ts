@@ -1,6 +1,12 @@
 import { GameState, UnloadPlugin } from '@tictactoe/interfaces';
 import { EventType } from '@tictactoe/interfaces/events';
-import { IAttributedEvent, PLUGIN_PUBLISHER, StateUpdatedEvent } from '@tictactoe/internal';
+import {
+  CORE_RENDERER_PUBLISHER,
+  PLUGIN_PUBLISHER,
+  EventBus,
+  IAttributedEvent,
+  StateUpdatedEvent,
+} from '@tictactoe/internal';
 import { pluginLoader, PluginLoader } from './PluginLoader';
 import { PluginManager } from './PluginManager';
 import { createPlugin, PluginWrapper } from './PluginWrapper';
@@ -11,7 +17,7 @@ class PluginManagerImpl implements PluginManager {
 
   private gameState: GameState = undefined as any;
 
-  constructor(private readonly pluginLoader: PluginLoader) { }
+  constructor(private readonly pluginLoader: PluginLoader, private readonly eventBus: EventBus) { }
 
   async loadPlugins(): Promise<void> {
     const pluginFactories = await this.pluginLoader.loadPlugins();
@@ -34,10 +40,11 @@ class PluginManagerImpl implements PluginManager {
   }
 
   publishEvent(event: IAttributedEvent): void {
+    this.eventBus.receiveEvent(event);
   }
 
   handleEvent(event: IAttributedEvent): void {
-    if (event.type === EventType.STATE_UPDATED) {
+    if (event.publishedBy === CORE_RENDERER_PUBLISHER && event.type === EventType.STATE_UPDATED) {
       const { state } = event as StateUpdatedEvent;
       this.gameState = state;
     }
@@ -64,4 +71,4 @@ class PluginManagerImpl implements PluginManager {
   }
 }
 
-export const pluginManager = (): PluginManager => new PluginManagerImpl(pluginLoader());
+export const pluginManager = (eventBus: EventBus): PluginManager => new PluginManagerImpl(pluginLoader(), eventBus);

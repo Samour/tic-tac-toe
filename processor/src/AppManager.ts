@@ -9,6 +9,8 @@ interface AppManager {
 
   onAppReady(): void;
 
+  onAppUnload(): void;
+
   onAppClose(): void;
 }
 
@@ -25,8 +27,12 @@ class AppManagerImpl implements AppManager {
     this.pluginManager.loadPlugins();
   }
 
-  onAppClose(): void {
+  onAppUnload(): void {
     this.pluginManager.unloadAllPlugins({ appShutDown: true });
+  }
+
+  onAppClose(): void {
+    this.onAppUnload();
     this.eventContextBridge.closeBridge();
     this.eventBus.unregisterSubscriber(this.pluginEventBridge);
   }
@@ -37,14 +43,14 @@ export const registerApp = (emitter: EventEmitter, send: SendEvent): () => void 
   const contextBridge = new ProcessorEventContextBridge(emitter, send);
   contextBridge.bindToEventBus(eventBus);
 
-  const pluginManager = createPluginManager();
+  const pluginManager = createPluginManager(eventBus);
   const pluginEventBridge = new PluginEventBridge(pluginManager);
   eventBus.registerSubscriber(pluginEventBridge);
 
   const appManager = new AppManagerImpl(pluginManager, eventBus, contextBridge, pluginEventBridge);
 
   const appReadyListener = () => appManager.onAppReady();
-  const appCloseListener = () => appManager.onAppClose();
+  const appCloseListener = () => appManager.onAppUnload();
   // TODO I think we have a multiplex issue here
   // If there are multiple BrowserWindows open, then there will be 1 AppManager
   // per BrowserWindow. But the events that are published by a single BrowserWindow

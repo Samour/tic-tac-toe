@@ -10,6 +10,7 @@
     "build": "npm run build:renderer && npm run build:processor",
     "clean": "rm -rf ./build",
     "build:plugin:simple": "webpack -c plugins/simple/webpack.config.js --mode production",
+    "build:plugin:nextPlayer": "webpack -c plugins/nextPlayer/webpack.config.js --mode production",
     "clean:plugins": "rm -rf ./build/plugins"
   },
   "repository": "https://github.com/electron/electron-quick-start",
