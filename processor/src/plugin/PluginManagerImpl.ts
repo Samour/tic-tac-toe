@@ -1,5 +1,6 @@
 import { GameState, UnloadPlugin } from '@tictactoe/interfaces';
-import { IAttributedEvent, PLUGIN_PUBLISHER } from '@tictactoe/internal';
+import { EventType } from '@tictactoe/interfaces/events';
+import { IAttributedEvent, PLUGIN_PUBLISHER, StateUpdatedEvent } from '@tictactoe/internal';
 import { pluginLoader, PluginLoader } from './PluginLoader';
 import { PluginManager } from './PluginManager';
 import { createPlugin, PluginWrapper } from './PluginWrapper';
@@ -7,6 +8,8 @@ import { createPlugin, PluginWrapper } from './PluginWrapper';
 class PluginManagerImpl implements PluginManager {
 
   private readonly plugins: Map<string, PluginWrapper> = new Map();
+
+  private gameState: GameState = undefined as any;
 
   constructor(private readonly pluginLoader: PluginLoader) { }
 
@@ -27,13 +30,18 @@ class PluginManagerImpl implements PluginManager {
   }
 
   getState(): GameState {
-    return {} as any;
+    return this.gameState;
   }
 
   publishEvent(event: IAttributedEvent): void {
   }
 
   handleEvent(event: IAttributedEvent): void {
+    if (event.type === EventType.STATE_UPDATED) {
+      const { state } = event as StateUpdatedEvent;
+      this.gameState = state;
+    }
+
     Array.from(this.plugins.entries())
       .filter(([name, p]) => PLUGIN_PUBLISHER + name !== event.publishedBy)
       .map(([name, p]) => p)

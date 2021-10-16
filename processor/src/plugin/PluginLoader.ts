@@ -2,7 +2,6 @@ import { PluginFactory } from '@tictactoe/interfaces';
 
 const fs = require('fs/promises');
 const path = require('path');
-const remote = require('@electron/remote');
 
 const PLUGIN_EXT = '.plugin.js';
 
@@ -27,7 +26,7 @@ class PluginLoaderImpl implements PluginLoader {
     }
 
     return files.filter((f) => f.endsWith(PLUGIN_EXT))
-      .map((f) => path.join(this.pluginsDir, f));
+    .map((f) => path.join(this.pluginsDir, f));
   }
 
   async loadPlugins(): Promise<PluginFactory[]> {
@@ -35,7 +34,8 @@ class PluginLoaderImpl implements PluginLoader {
 
     const pluginFactories = [];
     for (let pluginFile of files) {
-      const factory = remote.require(pluginFile)?.factory;
+      delete global.require.cache[pluginFile];
+      const factory = global.require(pluginFile)?.factory;
       pluginFactories.push(factory);
     }
 

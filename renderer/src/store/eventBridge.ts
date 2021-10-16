@@ -1,7 +1,13 @@
 import { Store } from 'redux';
 import { GameState } from '@tictactoe/interfaces';
 import { EventType } from '@tictactoe/interfaces/events';
-import { CORE_RENDERER_PUBLISHER, EventBus, EventSubscriber, IAttributedEvent } from '@tictactoe/internal';
+import {
+  CORE_RENDERER_PUBLISHER,
+  EventBus,
+  EventSubscriber,
+  IAttributedEvent,
+  StateUpdatedEvent,
+} from '@tictactoe/internal';
 
 class StoreEventBridge implements EventSubscriber {
 
@@ -9,13 +15,16 @@ class StoreEventBridge implements EventSubscriber {
 
   initialise(): void {
     this.store.subscribe(() => this.receiveDispatch());
+    this.receiveDispatch(); // To publish the initial state to other subscribers
   }
 
   private receiveDispatch(): void {
-    this.eventBus.receiveEvent({
+    const event: StateUpdatedEvent = {
       type: EventType.STATE_UPDATED,
       publishedBy: CORE_RENDERER_PUBLISHER,
-    });
+      state: this.store.getState(),
+    };
+    this.eventBus.receiveEvent(event);
   }
 
   processEvent(event: IAttributedEvent): void {
