@@ -1,5 +1,5 @@
-import { RenderableElement } from '../RenderableElement';
+import { RootRenderableElement } from '../RenderableElement';
 
 export interface PluginComponentsState {
-  components: RenderableElement[];
+  components: RootRenderableElement[];
 }

@@ -1,21 +1,21 @@
 import React, { createElement } from 'react';
 import { useSelector } from 'react-redux';
-import { GameState, PluginContainerName, RenderableElement } from '@tictactoe/interfaces';
+import { GameState, PluginContainerName, RenderableElement, RootRenderableElement } from '@tictactoe/interfaces';
 
 export interface Props {
   name: PluginContainerName;
 }
 
-const selector = (containerName: string) => (state: GameState): RenderableElement[] =>
+const selector = (containerName: string) => (state: GameState): RootRenderableElement[] =>
   state.pluginComponents.components.filter((c) => c.container === containerName);
 
-const convertToElement = (element: RenderableElement | string): React.ReactElement | string => {
+const convertToElement = (element: RenderableElement | string, key?: string): React.ReactElement | string => {
   if (typeof element === 'string') {
     return element;
   }
 
   const props: any = {
-    key: `${element.ownerPlugin}-${element.name}`,
+    key: key ?? element.key,
   };
   if (element.className) {
     props.className = element.className;
@@ -28,8 +28,10 @@ const convertToElement = (element: RenderableElement | string): React.ReactEleme
 const PluginComponentContainer = ({ name }: Props): React.ReactElement => {
   const elements = useSelector(selector(name));
 
+  const renderedElements = elements.map((e) => convertToElement(e, `${e.ownerPlugin}-${e.key}`));
+
   return (
-    <div className='plugin-components-container'>{elements}</div>
+    <div className='plugin-components-container'>{renderedElements}</div>
   );
 };
 

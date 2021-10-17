@@ -93,17 +93,21 @@ export const eventFilters = (): EventFilter[] => [
   new RemoveComponentMutationValidationFilter(),
 ];
 
-export const chainFilters = (filters: EventFilter[]): EventFilter => {
-  if (!filters?.length) {
-    return { filter: (e) => e };
+class FilterChain implements EventFilter {
+
+  constructor(private readonly chain: EventFilter[]) {}
+
+  private invokeChain<T extends IAttributedEvent>(event: T, chain: EventFilter[]): T {
+    if (!chain.length) {
+      return event;
+    }
+
+    return this.invokeChain(chain[0].filter(event), chain.slice(1));
   }
 
-  let filterChain: EventFilter = filters[0];
-  for (let filter of filters.slice(1)) {
-    filterChain = {
-      filter: (e) => filter.filter(filterChain.filter(e)),
-    };
+  filter<T extends IAttributedEvent>(event: T): T {
+    return this.invokeChain(event, this.chain);
   }
+}
 
-  return filterChain;
-};
+export const chainFilters = (filters: EventFilter[]): EventFilter => new FilterChain(filters);

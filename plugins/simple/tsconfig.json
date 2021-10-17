@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "@tictactoe/interfaces": ["../../interfaces"],
-      "@tictactoe/interfaces/events": ["../../interfaces/events"]
+      "@tictactoe/interfaces/events": ["../../interfaces/events"],
+      "@tictactoe/interfaces/mutations": ["../../interfaces/mutations"]
     },
     "strict": true,
     "esModuleInterop": true,
