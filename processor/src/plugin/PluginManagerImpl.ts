@@ -7,6 +7,7 @@ import {
   IAttributedEvent,
   StateUpdatedEvent,
 } from '@tictactoe/internal';
+import { chainFilters, EventFilter, eventFilters } from './EventFilters';
 import { pluginLoader, PluginLoader } from './PluginLoader';
 import { PluginManager } from './PluginManager';
 import { createPlugin, PluginWrapper } from './PluginWrapper';
@@ -17,12 +18,16 @@ class PluginManagerImpl implements PluginManager {
 
   private gameState: GameState = undefined as any;
 
-  constructor(private readonly pluginLoader: PluginLoader, private readonly eventBus: EventBus) { }
+  constructor(
+    private readonly pluginLoader: PluginLoader,
+    private readonly eventBus: EventBus,
+    private readonly eventFilter: EventFilter,
+  ) { }
 
   async loadPlugins(): Promise<void> {
     const pluginFactories = await this.pluginLoader.loadPlugins();
     for (let factory of pluginFactories) {
-      const plugin = createPlugin(this, factory);
+      const plugin = createPlugin(this, factory, this.eventFilter);
       if (!plugin) {
         continue;
       }
@@ -71,4 +76,8 @@ class PluginManagerImpl implements PluginManager {
   }
 }
 
-export const pluginManager = (eventBus: EventBus): PluginManager => new PluginManagerImpl(pluginLoader(), eventBus);
+export const pluginManager = (eventBus: EventBus): PluginManager => new PluginManagerImpl(
+  pluginLoader(),
+  eventBus,
+  chainFilters(eventFilters()),
+);

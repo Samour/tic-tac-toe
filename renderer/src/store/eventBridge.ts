@@ -8,13 +8,6 @@ import {
   IAttributedEvent,
   StateUpdatedEvent,
 } from '@tictactoe/internal';
-import { MutationType } from '@tictactoe/interfaces/mutations';
-
-const ALLOWED_MUTATIONS = [
-  MutationType.PLAYER__CHANGE_ACTIVE,
-  MutationType.BOARD__CHANGE_CELL_HELD_BY_PLAYER,
-  MutationType.BOARD__CLEAR_ALL_CELLS,
-];
 
 class StoreEventBridge implements EventSubscriber {
 
@@ -39,9 +32,6 @@ class StoreEventBridge implements EventSubscriber {
       return;
     }
     const { mutation } = event as any as StateMutationEvent;
-    if (!ALLOWED_MUTATIONS.includes(mutation.type)) {
-      return;
-    }
 
     this.store.dispatch(mutation);
   }

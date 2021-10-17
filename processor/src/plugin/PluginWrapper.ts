@@ -1,5 +1,6 @@
 import { Plugin, PluginFactory, UnloadPlugin } from '@tictactoe/interfaces';
 import { IEvent } from '@tictactoe/interfaces/events';
+import { EventFilter } from './EventFilters';
 import { PluginAccessImpl } from './PluginAccess';
 import { PluginManager } from './PluginManager';
 
@@ -43,7 +44,11 @@ class PluginWrapperImpl implements PluginWrapper {
   }
 }
 
-export const createPlugin = (manager: PluginManager, factory: PluginFactory): PluginWrapper | null => {
+export const createPlugin = (
+  manager: PluginManager,
+  factory: PluginFactory,
+  eventFilter: EventFilter,
+): PluginWrapper | null => {
   let name: string;
   try {
     name = factory.getPluginName();
@@ -56,7 +61,7 @@ export const createPlugin = (manager: PluginManager, factory: PluginFactory): Pl
   }
 
   try {
-    const pluginAccess = new PluginAccessImpl(name, manager);
+    const pluginAccess = new PluginAccessImpl(name, manager, eventFilter);
     const plugin = factory.create(pluginAccess);
 
     return new PluginWrapperImpl(name, plugin);

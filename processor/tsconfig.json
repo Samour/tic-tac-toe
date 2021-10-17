@@ -3,6 +3,7 @@
     "paths": {
       "@tictactoe/interfaces": ["../interfaces"],
       "@tictactoe/interfaces/events": ["../interfaces/events"],
+      "@tictactoe/interfaces/mutations": ["../interfaces/mutations"],
       "@tictactoe/internal": ["../internal"]
     },
     "strict": true,

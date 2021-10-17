@@ -1,5 +1,6 @@
-import { BoardState, iterateIndices } from '@tictactoe/interfaces';
+import { BoardState, CellIndex, CellState, iterateIndices } from '@tictactoe/interfaces';
 import { IMutation, MutationType, BoardChangeCellHeldByPlayerMutation } from '@tictactoe/interfaces/mutations';
+import { updateMap } from './updateItemInList';
 
 const initialState: BoardState = {
   cells: new Map(
@@ -20,24 +21,16 @@ const reducer = (state: BoardState | undefined, mutation: IMutation): BoardState
 
   if (mutation.type === MutationType.BOARD__CHANGE_CELL_HELD_BY_PLAYER) {
     const { row, column, heldByPlayerId } = mutation as BoardChangeCellHeldByPlayerMutation;
+
+    const innerMapper = updateMap<CellIndex, CellState>(column, (c) => ({
+      ...c,
+      heldByPlayerId
+    }));
+    const outerMapper = updateMap<CellIndex, Map<CellIndex, CellState>>(row, innerMapper);
+
     return {
       ...state,
-      cells: new Map(
-        Array.from(state.cells.entries())
-          .map(([i, rowState]) => [
-            i,
-            new Map(
-              Array.from(rowState.entries())
-                .map(([j, cell]) => [
-                  j,
-                  i == row && j == column ? {
-                    ...cell,
-                    heldByPlayerId,
-                  } : cell,
-                ]),
-            ),
-          ]),
-      ),
+      cells: outerMapper(state.cells),
     };
   } else if (mutation.type === MutationType.BOARD__CLEAR_ALL_CELLS) {
     return {
