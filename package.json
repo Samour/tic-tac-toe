@@ -38,7 +38,7 @@
     "ts-loader": "^9.2.6",
     "webpack": "^5.58.2",
     "webpack-cli": "^4.9.0",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^4.9.1"
   },
   "dependencies": {
     "@types/node": "^16.11.0",
