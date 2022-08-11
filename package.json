@@ -33,7 +33,7 @@
     "@types/react": "^17.0.30",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.4.0",
-    "electron": "^15.1.2",
+    "electron": "^20.0.2",
     "style-loader": "^3.3.0",
     "ts-loader": "^9.2.6",
     "webpack": "^5.58.2",
